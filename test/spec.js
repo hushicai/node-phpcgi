@@ -40,16 +40,17 @@ describe('phpcgi', function() {
             .end(done);
     });
     it('should return the query string', function(done) {
-       var query = 'q=hello'
-       request(app)
-           .get('/query.php?' + query)
-           .expect(query)
-           .end(done);
+        var query = 'q=hello'
+        request(app)
+        .get('/query.php?' + query)
+        .expect(query)
+        .end(done);
     });
     it('should response post data', function(done) {
         request(app)
            .post('/post.php')
            .type('form')
+           .set('user-agent', 'chrome')
            .send({name: 'hushicai'})
            .expect(200)
            .expect('hushicai')

@@ -26,6 +26,20 @@ function parse(source) {
     return result;
 }
 
+var HEADER_NEED_HTTP_PREFIX = [
+    'COOKIE',
+    "HOST",
+    "USER-AGENT",
+    "CONNECTION",
+    "ACCEPT",
+    "ACCEPT-ENCODING",
+    "ACCEPT_LANGUAGE"
+];
+
+function isNeedHttpPrefix(header) {
+    return HEADER_NEED_HTTP_PREFIX.indexOf(header.toUpperCase()) > -1;
+}
+
 /**
  * phpcgi
  *
@@ -68,14 +82,12 @@ exports = module.exports = function(options) {
             QUERY_STRING: query || ''
         };
         for (var header in headers) {
-            var name = 'HTTP_' + header.toUpperCase().replace(/-/g, '_');
+            var name = header.toUpperCase().replace(/-/g, '_');
+            if(isNeedHttpPrefix(header)) {
+                name = 'HTTP_' + name;
+            }
+
             env[name] = headers[header];
-        }
-        if ('content-type' in headers) {
-            env.CONTENT_TYPE = headers['content-type'];
-        }
-        if ('content-length' in headers) {
-            env.CONTENT_LENGTH = headers['content-length'];
         }
 
         var child = require('child_process').spawn(

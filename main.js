@@ -1,3 +1,4 @@
+var url = require('url');
 var path = require('path');
 
 // a simple parser for http response string without status line 
@@ -41,9 +42,9 @@ exports = module.exports = function(options) {
     return function(req, res, next) {
         req.pause();
         
-        var url = require('url').parse(req.url);
-        var scriptName = url.pathname;
-        var query = url.query;
+        var info = url.parse(req.url);
+        var scriptName = info.pathname;
+        var query = info.query;
         var method = req.method;
         var scriptFileName = path.normalize(docRoot + scriptName);
 

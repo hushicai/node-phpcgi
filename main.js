@@ -27,13 +27,13 @@ function parse(source) {
 }
 
 /**
- * exec php-cgi
+ * phpcgi
  *
  * @param {Object} options 
  * @param {string} options.documentRoot 
- * @param {strgin} options.handler the exec handler path, etc：
- *      1、`/usr/local/php/bin/php-cgi`
- *      2、`c:\\Program Files\\PHP\\php-cgi.exe`
+ * @param {strgin} options.handler the `php-cgi` executable file path, etc：
+ *      1. posix: `/usr/local/php/bin/php-cgi`
+ *      2. windows: `c:\\Program Files\\PHP\\php-cgi.exe`
  */
 exports = module.exports = function(options) {
     var docRoot = options.documentRoot;
@@ -86,7 +86,6 @@ exports = module.exports = function(options) {
             }
         );
 
-
         var buffer = [];
 
         child.on(
@@ -102,6 +101,7 @@ exports = module.exports = function(options) {
         });
 
         // pipe data into child progress
+        // specially for post
         req.pipe(child.stdin);
         req.resume();
 

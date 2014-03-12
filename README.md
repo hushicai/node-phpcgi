@@ -1,7 +1,7 @@
 node-phpcgi
 ===========
 
-Execute php in node with php-cgi。
+Execute php in node with php-cgi.
 
 ## quick start
 
@@ -25,7 +25,7 @@ var app = http.createServer(function(req, res) {
 });
 ```
 
-Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-config.js`：
+Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-config.js`:
 
 ```javascript
 // ...

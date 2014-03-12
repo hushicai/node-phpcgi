@@ -1,0 +1,23 @@
+{
+  "name": "node-phpcgi",
+  "version": "0.0.1",
+  "description": "add php support to node by the php-cgi executable file",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "php",
+    "cgi"
+  ],
+  "author": "hushicai <bluthcy@gmail.com> (http://hushicai.com/)",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "supertest": "~0.9.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "supertest": "~0.9.0"
+  }
+}

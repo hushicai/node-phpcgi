@@ -62,6 +62,7 @@ exports.getLocations = {
 npm install -g mocha
 
 # cd the repo directory
+npm install supertest
 mocha
 ```
 

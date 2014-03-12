@@ -30,7 +30,8 @@ Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-confi
 ```javascript
 // ...
 var phpcgi = require('node-phpcgi')({
-    documentRoot: './',
+    documentRoot: __dirname,
+    // windows: "C:\\Program Files\\PHP\php-cgi.exe"
     handler: '/usr/local/php/bin/php'
 });
 // ...

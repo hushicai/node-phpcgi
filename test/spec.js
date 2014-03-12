@@ -51,6 +51,7 @@ describe('phpcgi', function() {
            .post('/post.php')
            .type('form')
            .set('user-agent', 'chrome')
+           .set('referer', 'http://www.baidu.com')
            .send({name: 'hushicai'})
            .expect(200)
            .expect('hushicai')

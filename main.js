@@ -29,6 +29,7 @@ function parse(source) {
 var HEADER_NEED_HTTP_PREFIX = [
     'COOKIE',
     "HOST",
+    "REFERER",
     "USER-AGENT",
     "CONNECTION",
     "ACCEPT",
@@ -81,6 +82,8 @@ exports = module.exports = function(options) {
             REQUEST_METHOD: method,
             QUERY_STRING: query || ''
         };
+        // @see: http://en.wikipedia.org/wiki/Common_Gateway_Interface
+        // @see: http://livedocs.adobe.com/coldfusion/8/htmldocs/help.html?content=Expressions_8.html
         for (var header in headers) {
             var name = header.toUpperCase().replace(/-/g, '_');
             if(isNeedHttpPrefix(header)) {

@@ -39,7 +39,8 @@ Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-confi
 var phpcgi = require('node-phpcgi')({
     documentRoot: __dirname,
     // change it to your own handler path
-    // windows: "C:\\Program Files\\PHP\php-cgi.exe"
+    // note: double slashes in windows style path
+    // windows: "C:\\Program Files\\PHP\\php-cgi.exe"
     handler: '/usr/local/php/bin/php-cgi'
 });
 // ...

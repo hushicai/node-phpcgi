@@ -16,7 +16,7 @@ then, use it in your node server like this:
 ```javascript
 var middleware = require('node-phpcgi')({
     documentRoot: './htdocs',
-    // change to your handler path
+    // change it to your own handler path
     handler: '/usr/local/php/bin/php-cgi'
 });
 var app = http.createServer(function(req, res) {
@@ -32,7 +32,7 @@ Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-confi
 // ...
 var phpcgi = require('node-phpcgi')({
     documentRoot: __dirname,
-    // change to your handler path
+    // change it to your own handler path
     // windows: "C:\\Program Files\\PHP\php-cgi.exe"
     handler: '/usr/local/php/bin/php'
 });

@@ -5,7 +5,9 @@ Execute php in node with php-cgi.
 
 ## Foreword
 
-Before using this, make sure you have already installed the `php-cgi`(note: not the php command).
+Before using this, make sure you have already installed the `php-cgi`
+
+__Note__:_Not the php command_.
 
 ## Quick Start
 

@@ -3,7 +3,11 @@ node-phpcgi
 
 Execute php in node with php-cgi.
 
-## quick start
+## Foreword
+
+Before using this, make sure you have already installed the `php-cgi`(note: not the php command).
+
+## Quick Start
 
 First, install it in your project directory:
 
@@ -11,7 +15,7 @@ First, install it in your project directory:
 npm install node-phpcgi
 ```
 
-then, use it in your node server like this:
+Then, use it in your node server like this:
 
 ```javascript
 var middleware = require('node-phpcgi')({
@@ -59,7 +63,7 @@ exports.getLocations = {
 };
 ```
 
-## test
+## Test
 
 ```bash
 npm install -g mocha

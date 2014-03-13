@@ -40,7 +40,7 @@ var phpcgi = require('node-phpcgi')({
     documentRoot: __dirname,
     // change it to your own handler path
     // windows: "C:\\Program Files\\PHP\php-cgi.exe"
-    handler: '/usr/local/php/bin/php'
+    handler: '/usr/local/php/bin/php-cgi'
 });
 // ...
 exports.getLocations = {

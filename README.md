@@ -21,7 +21,7 @@ Then, use it in your node server like this:
 
 ```javascript
 var middleware = require('node-phpcgi')({
-    documentRoot: './htdocs',
+    documentRoot: __dirname,
     // change it to your own handler path
     handler: '/usr/local/php/bin/php-cgi'
 });

@@ -21,7 +21,7 @@ function parse(source) {
     result['headers'] = headers;
 
     // body
-    result['body'] = lines.join('');
+    result['body'] = lines.join('\n');
 
     return result;
 }

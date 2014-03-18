@@ -121,7 +121,7 @@ exports = module.exports = function(options) {
         }
 
         var child = require('child_process').spawn(
-            handler || 'php-cgi',
+            handler,
             [],
             {
                 env: env
@@ -134,12 +134,6 @@ exports = module.exports = function(options) {
         child.stdout.on('data', function(buf) {
             buffer.push(buf);
         });
-        child.stderr.on(
-            'data',
-            function() {
-                console.log('stderr:' + [].slice.call(arguments));
-            }
-        );
 
         child.on(
             'exit',
@@ -150,6 +144,8 @@ exports = module.exports = function(options) {
             'error',
             function() {
                 console.log('You may have the wrong php-cgi executable path:', handler);
+                res.writeHead(500);
+                res.end('service unavailable!');
             }
         );
 

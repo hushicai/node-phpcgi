@@ -68,8 +68,9 @@ exports.getLocations = {
 
 ## Test
 
-### Before test
-
+```bash
+git clone git@github.com:hushicai/node-phpcgi.git 
+```
 Before you can run the tests, you should change the handler path in the `test/spec.js` file:
 
 ```javascript

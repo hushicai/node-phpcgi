@@ -143,7 +143,7 @@ exports = module.exports = function(options) {
         ).on(
             'error',
             function() {
-                console.log('You may have the wrong php-cgi executable path:', handler);
+                console.log('You may have a wrong php-cgi executable path:', handler);
                 res.writeHead(500);
                 res.end('service unavailable!');
             }
@@ -163,7 +163,7 @@ exports = module.exports = function(options) {
 
             // response
             res.writeHead(result.statusCode, result.headers);
-            return res.end(result.body || '');
+            res.end(result.body || '');
         }
     };
 }

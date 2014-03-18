@@ -79,8 +79,9 @@ exports.getLocations = {
 Clone into somewhere:
 
 ```bash
-git clone git@github.com:hushicai/node-phpcgi.git 
+git clone https://github.com/hushicai/node-phpcgi.git
 ```
+
 Before you can run the tests, you should change the handler path in the `test/spec.js` file:
 
 ```javascript
@@ -91,13 +92,17 @@ var middleware = phpcgi({
 });
 ```
 
-After that, you can do this:
+If you does not install the global `mocha`, install it:
 
 ```bash
 npm install -g mocha
+```
 
+After that, you can do this:
+
+```bash
 # cd the repo directory
-npm install supertest
+npm install
 mocha
 ```
 

@@ -65,7 +65,7 @@ exports = module.exports = function(options) {
     var exts = options.exts || ['.php'];
 
     if (!docRoot) {
-        throw new Error('docRoot could not be empty!');
+        throw new Error('documentRoot could not be empty!');
     }
 
     return function(req, res, next) {
@@ -137,7 +137,7 @@ exports = module.exports = function(options) {
         child.stderr.on(
             'data',
             function() {
-                console.log('You may have the wrong php-cgi executable path:', handler);
+                console.log('stderr:' + [].slice.call(arguments));
             }
         );
 
@@ -149,7 +149,7 @@ exports = module.exports = function(options) {
         ).on(
             'error',
             function() {
-                console.log('process error: ' + [].slice.call(arguments));
+                console.log('You may have the wrong php-cgi executable path:', handler);
             }
         );
 

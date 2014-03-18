@@ -68,6 +68,8 @@ exports.getLocations = {
 
 ## Test
 
+Clone into somewhere:
+
 ```bash
 git clone git@github.com:hushicai/node-phpcgi.git 
 ```

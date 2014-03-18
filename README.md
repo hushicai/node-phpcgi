@@ -1,7 +1,7 @@
 node-phpcgi
 ===========
 
-Execute php in node with php-cgi.
+A simple middleware for node to execute php with php-cgi.
 
 ## Foreword
 
@@ -26,10 +26,21 @@ var middleware = require('node-phpcgi')({
     handler: '/usr/local/php/bin/php-cgi'
 });
 var app = http.createServer(function(req, res) {
-    middleware(req, res, function(err, result) {
-        // result: {statusCode: 200, headers: {content-type: 'text/html'}, body: 'html'}
-    });
+    middleware(req, res, function(err) {});
 });
+```
+
+If you are using [connect](https://github.com/senchalabs/connect), you can use it like this:
+
+```javascript
+var connect = require('connect');
+var phpcgi = require('node-phpcgi')({
+    documentRoot __dirname,
+    // change it to your own path
+    handler: '/usr/local/php2/bin/php-cgi'
+});
+var app = connect()
+    .use(phpcgi);
 ```
 
 Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-config.js`:
@@ -52,10 +63,7 @@ exports.getLocations = {
             handler: [
                 function(context) {
                     context.stop();
-                    phpcgi(context.req, context.res, function(err, result) {
-                        context.status = result.statusCode;
-                        context.headers = result.headers;
-                        context.content = result.body;
+                    phpcgi(context.req, context.res, function(err, data) {
                         context.start();
                     });
                 }

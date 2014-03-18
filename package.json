@@ -1,6 +1,6 @@
 {
   "name": "node-phpcgi",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Execute php in node with php-cgi",
   "main": "main.js",
   "directories": {
@@ -22,7 +22,8 @@
   "keywords": [
     "node",
     "php",
-    "cgi"
+    "cgi",
+    "middleware"
   ],
   "author": "hushicai <bluthcy@gmail.com> (http://hushicai.com/)",
   "license": "BSD-2-Clause",

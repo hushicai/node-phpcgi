@@ -1,5 +1,6 @@
 var url = require('url');
 var path = require('path');
+var fs = require('fs');
 
 /**
  * a simple parser for http response string
@@ -57,17 +58,37 @@ function isNeedHttpPrefix(header) {
  *      2. windows: `c:\\Program Files\\PHP\\php-cgi.exe`
  */
 exports = module.exports = function(options) {
+    options = options || {};
+
     var docRoot = options.documentRoot;
-    var handler = options.handler;
+    var handler = options.handler || "php-cgi";
+    var exts = options.exts || ['.php'];
+
+    if (!docRoot) {
+        throw new Error('docRoot could not be empty!');
+    }
 
     return function(req, res, next) {
         req.pause();
         
         var info = url.parse(req.url);
         var scriptName = info.pathname;
+        var ext = path.extname(scriptName);
+
+        if (exts.indexOf(ext) < 0) {
+            return next();
+        }
+
         var query = info.query;
         var method = req.method;
         var scriptFileName = path.normalize(docRoot + scriptName);
+
+        // windows may fail when the request file does not exist in the documentRoot
+        // so check it before spawn a child process
+        if (!fs.existsSync(scriptFileName)) {
+            res.writeHead(404);
+            return res.end('No input file specified');
+        }
 
         // @see: http://www.cgi101.com/book/ch3/text.html
         var headers = req.headers;
@@ -125,6 +146,11 @@ exports = module.exports = function(options) {
             function(code) {
                 done(code);
             }
+        ).on(
+            'error',
+            function() {
+                console.log('process error: ' + [].slice.call(arguments));
+            }
         );
 
         // specially for post
@@ -139,16 +165,9 @@ exports = module.exports = function(options) {
             result.headers.Status = result.headers.Status || "200 OK";
             result.statusCode = parseInt(result.headers.Status, 10); 
 
-            // result may like this:
-            // {
-            //    statusCode: 200,
-            //    headers: {
-            //        Status: 200,
-            //        content-type: 'text/html'
-            //    },
-            //    body: 'xxx'
-            // }
-            next(code, result);
+            // response
+            res.writeHead(result.statusCode, result.headers);
+            return res.end(result.body || '');
         }
     };
 }

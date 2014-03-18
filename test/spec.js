@@ -8,10 +8,7 @@ var middleware = phpcgi({
 });
 
 var app = http.createServer(function(req, res) {
-    middleware(req, res, function(err, result) {
-        res.writeHead(result.statusCode, result.headers);
-        res.end(result.body);
-    });
+    middleware(req, res, function(err) {});
 });
 
 describe('phpcgi', function() {

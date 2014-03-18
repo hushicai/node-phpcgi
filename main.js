@@ -1,14 +1,19 @@
 var url = require('url');
 var path = require('path');
 
-// a simple parser for http response string without status line 
+/**
+ * a simple parser for http response string
+ *
+ * @private
+ * @return {Object} result {headers: {Status: 200, 'content-type': 'text/html'}, body: 'xxxx'}
+ */
 function parse(source) {
     var result = {};
     var lines = source.split('\r\n');
     var line;
 
-    var headers = {};
     // headers
+    var headers = {};
     while(lines.length) {
         line = lines.shift();
         if (line) {
@@ -21,6 +26,7 @@ function parse(source) {
     result['headers'] = headers;
 
     // body
+    // join '\r\n' back to the body string
     result['body'] = lines.join('\r\n');
 
     return result;
@@ -103,6 +109,17 @@ exports = module.exports = function(options) {
 
         var buffer = [];
 
+        // collect data
+        child.stdout.on('data', function(buf) {
+            buffer.push(buf);
+        });
+        child.stderr.on(
+            'data',
+            function() {
+                console.log('You may have the wrong php-cgi executable path:', handler);
+            }
+        );
+
         child.on(
             'exit',
             function(code) {
@@ -110,13 +127,9 @@ exports = module.exports = function(options) {
             }
         );
 
-        // collect data
-        child.stdout.on('data', function(buf) {
-            buffer.push(buf);
-        });
-
-        // pipe data into child progress
         // specially for post
+        // pipe data into child progress
+        // if not, php-cgi could not receive the post data, and exit with something error.
         req.pipe(child.stdin);
         req.resume();
 
@@ -126,6 +139,15 @@ exports = module.exports = function(options) {
             result.headers.Status = result.headers.Status || "200 OK";
             result.statusCode = parseInt(result.headers.Status, 10); 
 
+            // result may like this:
+            // {
+            //    statusCode: 200,
+            //    headers: {
+            //        Status: 200,
+            //        content-type: 'text/html'
+            //    },
+            //    body: 'xxx'
+            // }
             next(code, result);
         }
     };

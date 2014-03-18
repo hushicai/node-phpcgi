@@ -68,6 +68,20 @@ exports.getLocations = {
 
 ## Test
 
+### Before test
+
+Before you can run the tests, you should change the handler path in the `test/spec.js` file:
+
+```javascript
+var middleware = phpcgi({
+    documentRoot: __dirname + '/htdocs',
+    // change it to your own path
+    handler: '/usr/local/php2/bin/php-cgi'
+});
+```
+
+After change the handler path to you own, you can do this:
+
 ```bash
 npm install -g mocha
 
@@ -76,4 +90,4 @@ npm install supertest
 mocha
 ```
 
-This repo is inspired from [gateway](https://github.com/fgnass/gateway.git).
+This package is inspired from [gateway](https://github.com/fgnass/gateway.git).

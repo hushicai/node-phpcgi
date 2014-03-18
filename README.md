@@ -80,7 +80,7 @@ var middleware = phpcgi({
 });
 ```
 
-After change the handler path to you own, you can do this:
+After that, you can do this:
 
 ```bash
 npm install -g mocha

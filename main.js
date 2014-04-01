@@ -131,9 +131,13 @@ exports = module.exports = function(options) {
         var buffer = [];
 
         // collect data
-        child.stdout.on('data', function(buf) {
-            buffer.push(buf);
-        });
+        child.stdout
+            .on('data', function(buf) {
+                buffer.push(buf);
+            })
+            // fixed wide byte char, like zh-cn
+            // Buffer may lead to messy code.
+            .setEncoding('utf8');
 
         child.on(
             'exit',

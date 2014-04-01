@@ -135,7 +135,7 @@ exports = module.exports = function(options) {
             .on('data', function(buf) {
                 buffer.push(buf);
             })
-            // fixed wide byte char, like zh-cn
+            // fixed multi-byte char, like zh-cn
             // Buffer may lead to messy code.
             .setEncoding('utf8');
 

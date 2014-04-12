@@ -60,13 +60,9 @@ function isNeedHttpPrefix(header) {
 exports = module.exports = function(options) {
     options = options || {};
 
-    var docRoot = options.documentRoot;
+    var docRoot = options.documentRoot || "";
     var handler = options.handler || "php-cgi";
     var exts = options.exts || ['.php'];
-
-    if (!docRoot) {
-        throw new Error('documentRoot could not be empty!');
-    }
 
     return function(req, res, next) {
         req.pause();
@@ -128,30 +124,48 @@ exports = module.exports = function(options) {
             }
         );
 
+        // buffer data
         var buffer = [];
+
+        // The child process can't be spawned
+        child.on(
+            'error',
+            function(err) {
+                return error('You may have a wrong php-cgi path.');
+            }
+        );
+
+        // dump stderr info
+        child.stderr
+            // the `end` event seems to happen always? 
+            .on(
+                'end',
+                function() {}
+            )
+            .on(
+                'data',
+                function() {
+                    console.log(
+                        'php-cgi error data: ' + [].slice.call(arguments)
+                    );
+                }
+            );
+
 
         // collect data
         child.stdout
-            .on('data', function(buf) {
-                buffer.push(buf);
-            })
-            // fixed multi-byte char, like zh-cn
-            // Buffer may lead to messy code.
+            .on(
+                'end',
+                done
+            )
+            .on(
+                'data', 
+                function(buf) {
+                    buffer.push(buf);
+                }
+            )
+            // multi-byte char, like zh-cn, buffer data may lead to messy code.
             .setEncoding('utf8');
-
-        child.on(
-            'exit',
-            function(code) {
-                done(code);
-            }
-        ).on(
-            'error',
-            function() {
-                console.log('You may have a wrong php-cgi executable path:', handler);
-                res.writeHead(500);
-                res.end('service unavailable!');
-            }
-        );
 
         // specially for post
         // pipe data into child progress
@@ -159,7 +173,15 @@ exports = module.exports = function(options) {
         req.pipe(child.stdin);
         req.resume();
 
-        function done(code) {
+        // exit with error
+        function error(err) {
+            console.log(err);
+            res.writeHead(500);
+            res.end(err || 'service unavailable!');
+        }
+
+        // success with data
+        function done() {
             var result = parse(buffer.join(''));
 
             result.headers.Status = result.headers.Status || "200 OK";

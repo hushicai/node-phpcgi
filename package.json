@@ -6,9 +6,6 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "supertest": "~0.9.0"
-  },
   "devDependencies": {
     "supertest": "~0.9.0"
   },

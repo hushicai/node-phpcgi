@@ -72,8 +72,10 @@ exports = module.exports = function(options) {
         var ext = path.extname(scriptName);
 
         if (exts.indexOf(ext) < 0) {
-            return next();
+            return next && next();
         }
+
+        console.log(req.url);
 
         var query = info.query;
         var method = req.method;

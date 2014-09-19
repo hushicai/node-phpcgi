@@ -1,6 +1,7 @@
 var http = require('http');
 var phpcgi = require('../main');
 var request = require('supertest');
+var path = require('path');
 
 var middleware = phpcgi({
     documentRoot: __dirname + '/htdocs',
@@ -37,7 +38,7 @@ describe('phpcgi', function() {
             .end(done);
     });
     it('should return the query string', function(done) {
-        var query = 'q=hello'
+        var query = 'q=hello';
         request(app)
         .get('/query.php?' + query)
         .expect(query)

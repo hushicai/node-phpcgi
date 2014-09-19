@@ -75,7 +75,7 @@ exports = module.exports = function(options) {
             return next && next();
         }
 
-        console.log(req.url);
+        console.log('PHP Request: ' + req.url);
 
         var query = info.query;
         var method = req.method;

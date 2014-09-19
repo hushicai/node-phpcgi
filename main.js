@@ -137,11 +137,6 @@ exports = module.exports = function(options) {
 
         // dump stderr info
         child.stderr
-            // the `end` event seems to happen always? 
-            .on(
-                'end',
-                function() {}
-            )
             .on(
                 'data',
                 function() {

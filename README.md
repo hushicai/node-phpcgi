@@ -43,37 +43,6 @@ var app = connect()
     .use(phpcgi);
 ```
 
-Specially, for [edp](https://github.com/ecomfe/edp), in the `edp-webserver-config.js`:
-
-```javascript
-// ...
-var phpcgi = require('node-phpcgi')({
-    documentRoot: __dirname,
-    // change it to your own handler path
-    // note: double backslash char `\\` in windows style path
-    // windows: "C:\\Program Files\\PHP\\php-cgi.exe"
-    handler: '/usr/local/php/bin/php-cgi'
-});
-// ...
-exports.getLocations = {
-    return [
-        // ...
-        {
-            location: /\.php($|\?)/,
-            handler: [
-                function(context) {
-                    context.stop();
-                    phpcgi(context.req, context.res, function(err, data) {
-                        context.start();
-                    });
-                }
-            ]
-        }
-        // ...
-    ];
-};
-```
-
 ## Test
 
 Clone into somewhere:

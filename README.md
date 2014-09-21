@@ -39,8 +39,8 @@ var phpcgi = require('node-phpcgi')({
     // change it to your own path
     handler: '/usr/local/php2/bin/php-cgi'
 });
-var app = connect()
-    .use(phpcgi);
+var app = connect();
+app.use(phpcgi);
 ```
 
 ## Test

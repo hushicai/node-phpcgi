@@ -16,10 +16,8 @@ module.exports = function(grunt) {
                             options.base = [options.base];
                         }
 
-                        // Here comes the PHP middleware
                         middlewares.push(phpcgi({documentRoot: __dirname}));
 
-                        // Same as in grunt-contrib-connect
                         options.base.forEach(function(base) {
                             middlewares.push(connect.static(base));
                         });

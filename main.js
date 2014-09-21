@@ -65,8 +65,6 @@ exports = module.exports = function(options) {
     var exts = options.exts || ['.php'];
 
     return function(req, res, next) {
-        req.pause();
-        
         var info = url.parse(req.url);
         var scriptName = info.pathname;
         var ext = path.extname(scriptName);
@@ -126,6 +124,18 @@ exports = module.exports = function(options) {
             }
         );
 
+        // specially for post
+        // pipe data into child progress
+        // if not, php-cgi could not receive the post data, and exit with something error.
+        //
+        // 如果上一个中间件已经接受了post数据，即有类似这样`req.on('data', function(chunk) {})`的逻辑
+        // req.readable会被置为false
+        // 在这里pipe可能会导致child.stdin一直在等待数据输入，phpcgi无法响应。
+        // 怎么处理readable为false的情况呢？
+        if (req.readable) {
+            req.pipe(child.stdin);
+        }
+
         // buffer data
         var buffer = [];
 
@@ -164,11 +174,6 @@ exports = module.exports = function(options) {
             // multi-byte char, like zh-cn, buffer data may lead to messy code.
             .setEncoding('utf8');
 
-        // specially for post
-        // pipe data into child progress
-        // if not, php-cgi could not receive the post data, and exit with something error.
-        req.pipe(child.stdin);
-        req.resume();
 
         // exit with error
         function error(err) {

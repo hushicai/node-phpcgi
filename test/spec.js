@@ -3,13 +3,10 @@ var phpcgi = require('../main');
 var request = require('supertest');
 var path = require('path');
 
-var middleware = phpcgi({
-    documentRoot: __dirname + '/htdocs',
-    handler: '/usr/local/php2/bin/php-cgi'
-});
+var cgi = phpcgi({documentRoot: __dirname + '/htdocs'});
 
 var app = http.createServer(function(req, res) {
-    middleware(req, res, function(err) {});
+    cgi(req, res, function(err) {});
 });
 
 describe('phpcgi', function() {

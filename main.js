@@ -60,7 +60,7 @@ function isNeedHttpPrefix(header) {
 exports = module.exports = function(options) {
     options = options || {};
 
-    var docRoot = options.documentRoot || "";
+    var docRoot = options.documentRoot || '.';
     var handler = options.handler || "php-cgi";
     var exts = options.exts || ['.php'];
 

@@ -162,10 +162,6 @@ exports = module.exports = function(options) {
         // collect data
         child.stdout
             .on(
-                'end',
-                done
-            )
-            .on(
                 'data', 
                 function(buf) {
                     buffer.push(buf);
@@ -173,6 +169,14 @@ exports = module.exports = function(options) {
             )
             // multi-byte char, like zh-cn, buffer data may lead to messy code.
             .setEncoding('utf8');
+
+        // done
+        child.on('close', function(code) {
+            if (code) {
+                return error('phpcgi exited with code ' + code);
+            }
+            return done();
+        });
 
 
         // exit with error

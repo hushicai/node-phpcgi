@@ -1,6 +1,6 @@
 {
   "name": "node-phpcgi",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Execute php in node with php-cgi",
   "main": "main.js",
   "directories": {
@@ -8,8 +8,11 @@
   },
   "devDependencies": {
     "supertest": "~0.9.0",
-    "grunt": "^0.4.5",
-    "grunt-contrib-connect": "^0.8.0"
+    "express": "^4.10.1",
+    "body-parser": "^1.9.2",
+    "serve-index": "^1.5.0",
+    "serve-static": "^1.7.1",
+    "multer": "^0.1.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

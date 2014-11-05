@@ -136,12 +136,9 @@ exports = module.exports = function(options) {
         }
         else if (req.body) {
             // express body parser
-            // how to do?
-            // child.stdin.end(JSON.stringify(req.body));
         }
         else if (req.bodyBuffer) {
             // edp
-            child.stdin.end(req.bodyBuffer);
         }
 
         // buffer data

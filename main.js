@@ -131,17 +131,17 @@ exports = module.exports = function(options) {
         // 如果上一个中间件已经接受了post数据，即有类似这样`req.on('data', function(chunk) {})`的逻辑
         // req.readable会被置为false
         // 在这里pipe可能会导致child.stdin一直在等待数据输入，phpcgi无法响应。
-        // 怎么处理readable为false的情况呢？
         if (req.readable) {
             req.pipe(child.stdin);
         }
-        else if (red.body) {
+        else if (req.body) {
             // express body parser
-            req.end(req.body);
+            // how to do?
+            // child.stdin.end(JSON.stringify(req.body));
         }
-        else if (red.bodyBuffer) {
+        else if (req.bodyBuffer) {
             // edp
-            req.end(req.bodyBuffer);
+            child.stdin.end(req.bodyBuffer);
         }
 
         // buffer data

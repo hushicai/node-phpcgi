@@ -6,9 +6,10 @@
     <title>upload</title>
 </head>
 <body>
-    <form action="./index.php" method="post" enctype="multipart/form-data">
+    <form action="./index.php" method="post" enctype="multipart/form-data" target="hidden">
         <input type="file" name="avatar">
         <input type="submit" value="submit">
     </form>
+    <iframe src="about:blank" name="hidden" style="display: none"></iframe>
 </body>
 </html>

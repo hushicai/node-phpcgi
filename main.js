@@ -135,6 +135,14 @@ exports = module.exports = function(options) {
         if (req.readable) {
             req.pipe(child.stdin);
         }
+        else if (red.body) {
+            // express body parser
+            req.end(req.body);
+        }
+        else if (red.bodyBuffer) {
+            // edp
+            req.end(req.bodyBuffer);
+        }
 
         // buffer data
         var buffer = [];

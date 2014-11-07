@@ -1,5 +1,5 @@
 var http = require('http');
-var phpcgi = require('../main');
+var phpcgi = require('../index');
 var request = require('supertest');
 var path = require('path');
 

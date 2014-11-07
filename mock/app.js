@@ -2,7 +2,7 @@ var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 var bodyParser = require('body-parser');
 var multer = require('multer');
-var phpcgi = require('../main');
+var phpcgi = require('../index');
 
 var express = require('express');
 var app = express();

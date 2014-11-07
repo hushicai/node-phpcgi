@@ -127,18 +127,17 @@ exports = module.exports = function(options) {
         // specially for post
         // pipe data into child progress
         // if not, php-cgi could not receive the post data, and exit with something error.
-        //
-        // 如果上一个中间件已经接受了post数据，即有类似这样`req.on('data', function(chunk) {})`的逻辑
-        // req.readable会被置为false
-        // 在这里pipe可能会导致child.stdin一直在等待数据输入，phpcgi无法响应。
         if (req.readable) {
             req.pipe(child.stdin);
         }
         else if (req.body) {
-            // express body parser
+            // you are using express multer.
+            child.kill('SIGHUP');
+            return res.end('phpcgi could not receive data.');
         }
         else if (req.bodyBuffer) {
             // edp
+            child.stdin.end(req.bodyBuffer);
         }
 
         // buffer data
@@ -162,7 +161,6 @@ exports = module.exports = function(options) {
                     );
                 }
             );
-
 
         // collect data
         child.stdout

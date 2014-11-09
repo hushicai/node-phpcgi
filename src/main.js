@@ -153,11 +153,10 @@ exports = module.exports = function(options) {
         req.pipe(child.stdin);
     }
     else if (req.body) {
-        // you are using express multer.
         child.kill('SIGHUP');
         return end({
             statusCode: 502,
-            body: 'phpcgi could not receive data. please check if you are using express body-parser or multer.'
+            body: 'phpcgi could not receive data. please check if you are using body-parser or multer.'
         });
     }
     else if (req.bodyBuffer) {

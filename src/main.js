@@ -155,7 +155,10 @@ exports = module.exports = function(options) {
     else if (req.body) {
         // you are using express multer.
         child.kill('SIGHUP');
-        return res.end('phpcgi could not receive data.');
+        return end({
+            statusCode: 502,
+            body: 'phpcgi could not receive data. please check if you are using express body-parser or multer.'
+        });
     }
     else if (req.bodyBuffer) {
         // edp

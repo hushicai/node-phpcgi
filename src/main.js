@@ -1,3 +1,6 @@
+/* eslint-env node  */
+
+
 var url = require('url');
 var path = require('path');
 var fs = require('fs');
@@ -6,6 +9,7 @@ var fs = require('fs');
  * a simple parser for http response string
  *
  * @private
+ * @param {Object} source source
  * @return {Object} result {headers: {Status: 200, 'content-type': 'text/html'}, body: 'xxxx'}
  */
 function parse(source) {
@@ -15,33 +19,34 @@ function parse(source) {
 
     // headers
     var headers = {};
-    while(lines.length) {
+    while (lines.length) {
         line = lines.shift();
         if (line) {
             line = line.split(':');
             headers[line[0]] = line[1];
-        } else {
+        }
+        else {
             break;
         }
     }
-    result['headers'] = headers;
+    result.headers = headers;
 
     // body
     // join '\r\n' back to the body string
-    result['body'] = lines.join('\r\n');
+    result.body = lines.join('\r\n');
 
     return result;
 }
 
 var HEADER_NEED_HTTP_PREFIX = [
     'COOKIE',
-    "HOST",
-    "REFERER",
-    "USER-AGENT",
-    "CONNECTION",
-    "ACCEPT",
-    "ACCEPT-ENCODING",
-    "ACCEPT_LANGUAGE"
+    'HOST',
+    'REFERER',
+    'USER-AGENT',
+    'CONNECTION',
+    'ACCEPT',
+    'ACCEPT-ENCODING',
+    'ACCEPT_LANGUAGE'
 ];
 
 function isNeedHttpPrefix(header) {
@@ -52,20 +57,20 @@ function empty() {}
 
 /**
  * phpcgi
- * 
- * @param {Object} options 
- * @param {string} options.documentRoot 
- * @param {?string} options.handler 
- * @param {HttpRequest} options.req 
- * @param {HttpResponse} options.res 
- * @publci
+ *
+ * @public
+ * @param {Object} options options
+ * @param {string} options.documentRoot root
+ * @param {?string} options.handler handler
+ * @param {HttpRequest} options.req req
+ * @param {HttpResponse} options.res res
+ * @return {void} none
  */
 exports = module.exports = function(options) {
     options = options || {};
 
     var documentRoot = options.documentRoot || '.';
-    var handler = options.handler || "php-cgi";
-    
+    var handler = options.handler || 'php-cgi';
     var req = options.req;
     var res = options.res;
     var next = options.next || empty;
@@ -120,8 +125,7 @@ exports = module.exports = function(options) {
         REDIRECT_STATUS: 200,
         SERVER_NAME: host[0],
         SERVER_PORT: host[1] || 80,
-        REDIRECT_STATUS: 200,
-        SCRIPT_NAME: scriptName, 
+        SCRIPT_NAME: scriptName,
         REQUEST_URI: scriptName,
         SCRIPT_FILENAME: scriptFileName,
         REQUEST_METHOD: method,
@@ -130,12 +134,14 @@ exports = module.exports = function(options) {
     // @see: http://en.wikipedia.org/wiki/Common_Gateway_Interface
     // @see: http://livedocs.adobe.com/coldfusion/8/htmldocs/help.html?content=Expressions_8.html
     for (var header in headers) {
-        var name = header.toUpperCase().replace(/-/g, '_');
-        if(isNeedHttpPrefix(header)) {
-            name = 'HTTP_' + name;
-        }
+        if (headers.hasOwnProperty(header)) {
+            var name = header.toUpperCase().replace(/-/g, '_');
+            if (isNeedHttpPrefix(header)) {
+                name = 'HTTP_' + name;
+            }
 
-        env[name] = headers[header];
+            env[name] = headers[header];
+        }
     }
 
     var child = require('child_process').spawn(
@@ -170,7 +176,7 @@ exports = module.exports = function(options) {
     // The child process can't be spawned
     child.on(
         'error',
-        function(err) {
+        function() {
             return error('You may have a wrong php-cgi path.');
         }
     );
@@ -189,7 +195,7 @@ exports = module.exports = function(options) {
     // collect data
     child.stdout
         .on(
-            'data', 
+            'data',
             function(buf) {
                 buffer.push(buf);
             }
@@ -220,9 +226,9 @@ exports = module.exports = function(options) {
     function done() {
         var result = parse(buffer.join(''));
 
-        result.headers.Status = result.headers.Status || "200 OK";
-        result.statusCode = parseInt(result.headers.Status, 10); 
+        result.headers.Status = result.headers.Status || '200 OK';
+        result.statusCode = parseInt(result.headers.Status, 10);
 
         return end(result);
     }
-}
+};

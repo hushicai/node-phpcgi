@@ -3,6 +3,8 @@
  * @author hushicai(bluthcy@gmail.com)
  */
 
+/* eslint-env node  */
+
 var phpcgi = require('./src/main');
 
 // middleware
@@ -20,6 +22,6 @@ function fn(options) {
             next: next
         });
     };
-};
+}
 
 exports = module.exports = fn;

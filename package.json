@@ -1,6 +1,6 @@
 {
   "name": "node-phpcgi",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Execute php in node with php-cgi",
   "main": "main.js",
   "directories": {

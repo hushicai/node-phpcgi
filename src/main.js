@@ -13,6 +13,7 @@ var fs = require('fs');
  * @return {Object} result {headers: {Status: 200, 'content-type': 'text/html'}, body: 'xxxx'}
  */
 function parse(source) {
+    // http spec: use `\r\n` as line break, except body
     var result = {};
     var lines = source.split('\r\n');
     var line;
@@ -32,7 +33,7 @@ function parse(source) {
     result.headers = headers;
 
     // body
-    // join '\r\n' back to the body string
+    // if body has `\r\n`, join it back to the body string
     result.body = lines.join('\r\n');
 
     return result;

@@ -63,6 +63,7 @@ function empty() {}
  * @param {Object} options options
  * @param {string} options.documentRoot root
  * @param {?string} options.handler handler
+ * @param {?array} options.phpArguments phpArguments
  * @param {HttpRequest} options.req req
  * @param {HttpResponse} options.res res
  * @return {void} none
@@ -72,6 +73,7 @@ exports = module.exports = function(options) {
 
     var documentRoot = options.documentRoot || '.';
     var handler = options.handler || 'php-cgi';
+    var phpArguments = options.phpArguments || [];
     var req = options.req;
     var res = options.res;
     var next = options.next || empty;
@@ -147,7 +149,7 @@ exports = module.exports = function(options) {
 
     var child = require('child_process').spawn(
         handler,
-        [],
+        phpArguments,
         {
             env: env
         }

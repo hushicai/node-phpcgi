@@ -43,6 +43,20 @@ var app = connect();
 app.use(phpcgi);
 ```
 
+## Customize
+
+If you want to specify the arguments for PHP, just add them:
+
+```javascript
+var middleware = phpcgi({
+    documentRoot: __dirname,
+    // change it to your own path
+    handler: '/usr/local/php2/bin/php-cgi'
+    // change it to your own arguments
+    arguments: ['-c', '/foo/bar/php.ini']
+});
+```
+
 ## Test
 
 Clone into somewhere:

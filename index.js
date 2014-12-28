@@ -11,12 +11,14 @@ var phpcgi = require('./src/main');
 function fn(options) {
     var documentRoot = options.documentRoot;
     var handler = options.handler;
+    var phpArguments = options.arguments;
 
     // middleware
     return function(req, res, next) {
         return phpcgi({
             documentRoot: documentRoot,
             handler: handler,
+            phpArguments: phpArguments,
             req: req,
             res: res,
             next: next

@@ -3,7 +3,10 @@ var phpcgi = require('../index');
 var request = require('supertest');
 var path = require('path');
 
-var cgi = phpcgi({documentRoot: __dirname + '/htdocs'});
+var cgi = phpcgi({
+    documentRoot: __dirname + '/htdocs',
+    args: ['-c', '/usr/local/php/lib/php.ini']
+});
 
 var app = http.createServer(function(req, res) {
     cgi(req, res, function(err) {});

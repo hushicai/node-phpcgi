@@ -37,7 +37,7 @@ var connect = require('connect');
 var phpcgi = require('node-phpcgi')({
     documentRoot __dirname,
     // change it to your own path
-    handler: '/usr/local/php2/bin/php-cgi'
+    handler: '/usr/local/php/bin/php-cgi'
 });
 var app = connect();
 app.use(phpcgi);
@@ -51,9 +51,9 @@ If you want to specify the arguments for PHP, just add them:
 var middleware = phpcgi({
     documentRoot: __dirname,
     // change it to your own path
-    handler: '/usr/local/php2/bin/php-cgi'
-    // change it to your own arguments
-    arguments: ['-c', '/foo/bar/php.ini']
+    handler: '/usr/local/php/bin/php-cgi'
+    // you can add any available php-cgi args here.
+    args: ['-c', '/usr/local/php/lib/php.ini']
 });
 ```
 
@@ -71,7 +71,7 @@ Before you can run the tests, you should change the handler path in the `test/sp
 var middleware = phpcgi({
     documentRoot: __dirname + '/htdocs',
     // change it to your own path
-    handler: '/usr/local/php2/bin/php-cgi'
+    handler: '/usr/local/php/bin/php-cgi'
 });
 ```
 

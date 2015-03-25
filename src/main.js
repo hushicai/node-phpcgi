@@ -225,10 +225,20 @@ exports = module.exports = function(options) {
     function error(err) {
         console.log(err);
 
-        return end({
-            statusCode: 500,
-            body: 'service unavailable!'
-        });
+        // code如果非0，说明php-cgi异常退出了
+        // 但是异常退出，有可能是php程序错误导致的
+        // 因此，这里还得判断一下buffer
+        // 如果buffer中有数据，则把buffer内容返回
+        var result = {};
+        if (buffer.length) {
+            result = parse(buffer.join(''));
+        }
+        else {
+            result.body = 'service unavailable!';
+        }
+        result.statusCode = 500;
+
+        return end(result);
     }
 
     // success with data

@@ -35,12 +35,23 @@ If you are using [connect](https://github.com/senchalabs/connect), you can use i
 ```javascript
 var connect = require('connect');
 var phpcgi = require('node-phpcgi')({
-    documentRoot __dirname,
+    documentRoot: __dirname,
     // change it to your own path
     handler: '/usr/local/php/bin/php-cgi'
 });
 var app = connect();
 app.use(phpcgi);
+```
+
+Specially for [edp](https://github.com/ecomfe/edp), you can use it like this:
+
+```javascript
+{
+    location: /\.php($|\?)/,
+    handler: [
+        require('node-phpcgi/edp')()
+    ]
+}
 ```
 
 ## Customize

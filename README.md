@@ -58,7 +58,7 @@ There is a complete example using expressjs [here](https://github.com/hushicai/n
 
 ## Customize
 
-If you want to specify the arguments for PHP, just add them:
+If you want to specify the arguments for php, just add them:
 
 ```javascript
 var middleware = phpcgi({

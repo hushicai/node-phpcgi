@@ -205,20 +205,24 @@ exports = module.exports = function(options) {
     child.stdout
         .on(
             'data',
-            function(buf) {
+            function (buf) {
                 buffer.push(buf);
             }
-        )
+        );
         // multi-byte char, like zh-cn, buffer data may lead to messy code.
-        .setEncoding('utf8');
+        // .setEncoding('utf8');
 
     // done
-    child.on('close', function(code) {
+    child.on('close', function (code) {
         if (code) {
             return error('phpcgi exited with code ' + code);
         }
         return done();
     });
+
+    function bufferToString() {
+        return Buffer.concat(buffer).toString('utf8');
+    }
 
 
     // exit with error
@@ -231,7 +235,7 @@ exports = module.exports = function(options) {
         // 如果buffer中有数据，则把buffer内容返回
         var result = {};
         if (buffer.length) {
-            result = parse(buffer.join(''));
+            result = parse(bufferToString());
         }
         else {
             result.body = 'service unavailable!';
@@ -243,7 +247,7 @@ exports = module.exports = function(options) {
 
     // success with data
     function done() {
-        var result = parse(buffer.join(''));
+        var result = parse(bufferToString());
 
         result.headers.Status = result.headers.Status || '200 OK';
         result.statusCode = parseInt(result.headers.Status, 10);

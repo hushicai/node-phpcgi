@@ -11,14 +11,19 @@ var url = require('url');
 var path = require('path');
 var fs = require('fs');
 
+function bufferToString(buffer) {
+    return Buffer.concat(buffer).toString('utf8');
+}
+
 /**
  * a simple parser for http response string
  *
  * @private
- * @param {Object} source source
+ * @param {Buffer} buffer buffer
  * @return {Object} result {headers: {Status: 200, 'content-type': 'text/html'}, body: 'xxxx'}
  */
-function parse(source) {
+function parse(buffer) {
+    var source = bufferToString(buffer);
     // http spec: use `\r\n` as line break, except body
     var result = {};
     var lines = source.split('\r\n');
@@ -53,7 +58,7 @@ var HEADER_NEED_HTTP_PREFIX = [
     'CONNECTION',
     'ACCEPT',
     'ACCEPT-ENCODING',
-    'ACCEPT_LANGUAGE'
+    'ACCEPT-LANGUAGE'
 ];
 
 function isNeedHttpPrefix(header) {
@@ -74,7 +79,7 @@ function empty() {}
  * @param {HttpResponse} options.res res
  * @return {void} none
  */
-exports = module.exports = function(options) {
+exports = module.exports = function (options) {
     options = options || {};
 
     var documentRoot = options.documentRoot || '.';
@@ -88,7 +93,7 @@ exports = module.exports = function(options) {
     var start = options.start || empty;
 
     // 请求结束
-    var end = options.end || function(e) {
+    var end = options.end || function (e) {
         var statusCode = e.statusCode;
         var headers = e.headers;
         var body = e.body || '';
@@ -107,7 +112,7 @@ exports = module.exports = function(options) {
 
     start();
 
-    console.log('PHP Request: ' + req.method + " " + req.url);
+    console.log('PHP Request: ' + req.method + ' ' + req.url);
 
     var query = info.query;
     var method = req.method;
@@ -185,7 +190,7 @@ exports = module.exports = function(options) {
     // The child process can't be spawned
     child.on(
         'error',
-        function() {
+        function () {
             return error('You may have a wrong php-cgi path.');
         }
     );
@@ -194,7 +199,7 @@ exports = module.exports = function(options) {
     child.stderr
         .on(
             'data',
-            function() {
+            function () {
                 console.log(
                     'php-cgi error data: ' + [].slice.call(arguments)
                 );
@@ -220,10 +225,6 @@ exports = module.exports = function(options) {
         return done();
     });
 
-    function bufferToString() {
-        return Buffer.concat(buffer).toString('utf8');
-    }
-
 
     // exit with error
     function error(err) {
@@ -235,7 +236,7 @@ exports = module.exports = function(options) {
         // 如果buffer中有数据，则把buffer内容返回
         var result = {};
         if (buffer.length) {
-            result = parse(bufferToString());
+            result = parse(buffer);
         }
         else {
             result.body = 'service unavailable!';
@@ -247,7 +248,7 @@ exports = module.exports = function(options) {
 
     // success with data
     function done() {
-        var result = parse(bufferToString());
+        var result = parse(buffer);
 
         result.headers.Status = result.headers.Status || '200 OK';
         result.statusCode = parseInt(result.headers.Status, 10);

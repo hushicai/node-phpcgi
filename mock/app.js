@@ -11,7 +11,7 @@ app.set('port', 8000);
 
 var documentRoot = require('path').resolve(__dirname, '..');
 
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
 // app.use(multer({dest: './uploads/'}));
 app.use(phpcgi({documentRoot: documentRoot}));
 app.use(serveIndex(documentRoot));

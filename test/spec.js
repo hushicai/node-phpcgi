@@ -3,9 +3,12 @@ var phpcgi = require('../index');
 var request = require('supertest');
 var path = require('path');
 
+var documentRoot = __dirname + '/htdocs',
+    args = ['-c', '/usr/local/php/lib/php.ini'];
+
 var cgi = phpcgi({
-    documentRoot: __dirname + '/htdocs',
-    args: ['-c', '/usr/local/php/lib/php.ini']
+    documentRoot: documentRoot,
+    args: args
 });
 
 var app = http.createServer(function(req, res) {
@@ -54,5 +57,44 @@ describe('phpcgi', function() {
            .expect(200)
            .expect('hushicai')
            .end(done);
+    });
+    it('should ignore assets', function(done) {
+        var req = request('/assets/rgb.png')
+                    .get('/assets/rgb.png');
+        setTimeout(function() {
+            req.end(done)
+        }, 1500);
+    });
+    it('extensions should be configurable', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            extensions: ['.php', '.php5']
+        });
+
+        request(
+           http.createServer(function(req, res) {
+               cgiCustom(req, res, function(err) {});
+           })
+        )
+        .get('/200.php5')
+        .expect(200)
+        .end(done);
+    });
+    it('include path should override extensions check', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            includePath: '/assets'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+            })
+        )
+        .get('/assets/rgb.png')
+        .expect(200)
+        .end(done);
     });
 });

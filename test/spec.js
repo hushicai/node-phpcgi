@@ -97,4 +97,20 @@ describe('phpcgi', function() {
         .expect(200)
         .end(done);
     });
+    it('should support an entry point for application by scriptName option', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            scriptName: '/content.php'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+            })
+        )
+        .get('/not-existing')
+        .expect('hushicai')
+        .end(done);
+    });
 });

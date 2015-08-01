@@ -105,7 +105,7 @@ exports = module.exports = function (options) {
     };
 
     var info = url.parse(req.url);
-    var scriptName = info.pathname;
+    var scriptName = options.scriptName || info.pathname;
     var ext = path.extname(scriptName);
 
     if (
@@ -152,10 +152,11 @@ exports = module.exports = function (options) {
         REMOTE_PORT: req.connection.remotePort,
         HTTPS: req.connection.encrypted ? 'On' : 'Off',
         REQUEST_METHOD: method,
-        REQUEST_URI: scriptName,
+        REQUEST_URI: req.url,
         SCRIPT_NAME: scriptName,
         SCRIPT_FILENAME: scriptFileName,
-        QUERY_STRING: query || ''
+        QUERY_STRING: query || '',
+        PATH_INFO: req.url.replace(scriptName, '')
     };
     // @see: http://en.wikipedia.org/wiki/Common_Gateway_Interface
     // @see: http://livedocs.adobe.com/coldfusion/8/htmldocs/help.html?content=Expressions_8.html

@@ -86,7 +86,7 @@ exports = module.exports = function (options) {
     var handler = options.handler || 'php-cgi';
     var phpcgiArguments = options.args || [];
     var extensions = options.extensions || ['.php'];
-    var includePath = options.includePath || '';
+    var includePath = options.includePath || false;
     var req = options.req;
     var res = options.res;
     var next = options.next || empty;
@@ -111,7 +111,7 @@ exports = module.exports = function (options) {
     if (
       extensions.indexOf(ext) < 0 &&
       (
-        includePath !== '' &&
+        includePath === false ||
         scriptName.search(new RegExp(includePath)) < 0
       )
     ) {

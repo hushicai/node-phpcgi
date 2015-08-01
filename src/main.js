@@ -105,14 +105,16 @@ exports = module.exports = function (options) {
     };
 
     var info = url.parse(req.url);
-    var scriptName = options.scriptName || info.pathname;
-    var ext = path.extname(scriptName);
+    var scriptName = options.entryPoint || info.pathname;
+console.log(scriptName);
+    var requestPath = info.pathname;
+    var ext = path.extname(requestPath);
 
     if (
       extensions.indexOf(ext) < 0 &&
       (
         includePath === false ||
-        scriptName.search(new RegExp(includePath)) < 0
+        requestPath.search(new RegExp(includePath)) < 0
       )
     ) {
         return next();
@@ -156,7 +158,7 @@ exports = module.exports = function (options) {
         SCRIPT_NAME: scriptName,
         SCRIPT_FILENAME: scriptFileName,
         QUERY_STRING: query || '',
-        PATH_INFO: req.url.replace(scriptName, '')
+        PATH_INFO: req.url.replace(requestPath, '')
     };
     // @see: http://en.wikipedia.org/wiki/Common_Gateway_Interface
     // @see: http://livedocs.adobe.com/coldfusion/8/htmldocs/help.html?content=Expressions_8.html

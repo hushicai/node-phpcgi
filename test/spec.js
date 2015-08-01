@@ -59,10 +59,10 @@ describe('phpcgi', function() {
            .end(done);
     });
     it('should ignore assets', function(done) {
-        var req = request('/assets/rgb.png')
-                    .get('/assets/rgb.png');
+        request(app)
+          .get('/assets/rgb.png');
         setTimeout(function() {
-            req.end(done)
+            done();
         }, 1500);
     });
     it('extensions should be configurable', function(done) {
@@ -97,11 +97,11 @@ describe('phpcgi', function() {
         .expect(200)
         .end(done);
     });
-    it('should support an entry point for application by scriptName option', function(done) {
+    it('should support an entry point for application', function(done) {
         var cgiCustom = phpcgi({
             documentRoot: documentRoot,
             args: args,
-            scriptName: '/content.php'
+            entryPoint: '/content.php'
         });
 
         request(
@@ -109,8 +109,45 @@ describe('phpcgi', function() {
                 cgiCustom(req, res, function(err) {});
             })
         )
-        .get('/not-existing')
+        .get('/not-existing.php')
         .expect('hushicai')
         .end(done);
+    });
+    it('should support entryPoint and includePath together (positive)', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            includePath: '/api',
+            entryPoint: '/content.php'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+            })
+        )
+        .get('/api/resource')
+        .expect('hushicai')
+        .end(done);
+    });
+    it('should support entryPoint and includePath together (negative)', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            includePath: '/api',
+            entryPoint: '/content.php'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+
+            })
+        )
+        .get('/not-existing');
+
+        setTimeout(function(){
+            done()
+        }, 1500);
     });
 });

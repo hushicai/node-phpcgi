@@ -14,7 +14,7 @@ function fn(options) {
     var phpcgiArguments = options.args;
     var extensions = options.extensions;
     var includePath = options.includePath;
-    var scriptName = options.scriptName;
+    var entryPoint = options.entryPoint;
 
     // middleware
     return function(req, res, next) {
@@ -27,7 +27,7 @@ function fn(options) {
             next: next,
             extensions: extensions,
             includePath: includePath,
-            scriptName: scriptName
+            entryPoint: entryPoint
         });
     };
 }

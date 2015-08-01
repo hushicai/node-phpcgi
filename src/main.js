@@ -106,7 +106,6 @@ exports = module.exports = function (options) {
 
     var info = url.parse(req.url);
     var scriptName = options.entryPoint || info.pathname;
-console.log(scriptName);
     var requestPath = info.pathname;
     var ext = path.extname(requestPath);
 

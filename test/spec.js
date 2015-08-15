@@ -11,8 +11,13 @@ var cgi = phpcgi({
     args: args
 });
 
+var ticket = 'not handled by cgi!';
+
 var app = http.createServer(function(req, res) {
-    cgi(req, res, function(err) {});
+    cgi(req, res, function(err) {
+        res.writeHead(200);
+        res.end(ticket);
+    });
 });
 
 describe('phpcgi', function() {
@@ -58,12 +63,12 @@ describe('phpcgi', function() {
            .expect('hushicai')
            .end(done);
     });
-    it('should ignore assets', function(done) {
-        var req = request('/assets/rgb.png')
-                    .get('/assets/rgb.png');
-        setTimeout(function() {
-            req.end(done)
-        }, 1500);
+    it('should ignore assets', function (done) {
+         request(app)
+            .get('/assets/rgb.png')
+            .expect(200)
+            .expect(ticket)
+            .end(done);
     });
     it('extensions should be configurable', function(done) {
         var cgiCustom = phpcgi({

@@ -113,7 +113,7 @@ exports = module.exports = function (options) {
       extensions.indexOf(ext) < 0
       && (
         includePath === false
-        || requestPath.search(new RegExp(includePath)) < 0
+        || requestPath.search(new RegExp('^' + includePath)) < 0
       )
     ) {
         return next();

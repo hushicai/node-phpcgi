@@ -102,4 +102,57 @@ describe('phpcgi', function() {
         .expect(200)
         .end(done);
     });
+    it('should support an entry point for application', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            entryPoint: '/content.php'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+            })
+        )
+        .get('/not-existing.php')
+        .expect('hushicai')
+        .end(done);
+    });
+    it('should support entryPoint and includePath together (positive)', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            includePath: '/api',
+            entryPoint: '/content.php'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+            })
+        )
+        .get('/api/resource')
+        .expect('hushicai')
+        .end(done);
+    });
+    it('should support entryPoint and includePath together (negative)', function(done) {
+        var cgiCustom = phpcgi({
+            documentRoot: documentRoot,
+            args: args,
+            includePath: '/api',
+            entryPoint: '/content.php'
+        });
+
+        request(
+            http.createServer(function(req, res) {
+                cgiCustom(req, res, function(err) {});
+
+            })
+        )
+        .get('/not-existing');
+
+        setTimeout(function(){
+            done()
+        }, 1500);
+    });
 });

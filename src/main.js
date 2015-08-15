@@ -105,14 +105,15 @@ exports = module.exports = function (options) {
     };
 
     var info = url.parse(req.url);
-    var scriptName = info.pathname;
-    var ext = path.extname(scriptName);
+    var scriptName = options.entryPoint || info.pathname;
+    var requestPath = info.pathname;
+    var ext = path.extname(requestPath);
 
     if (
-      extensions.indexOf(ext) < 0 &&
-      (
-        includePath === false ||
-        scriptName.search(new RegExp(includePath)) < 0
+      extensions.indexOf(ext) < 0
+      && (
+        includePath === false
+        || requestPath.search(new RegExp(includePath)) < 0
       )
     ) {
         return next();
@@ -152,7 +153,7 @@ exports = module.exports = function (options) {
         REMOTE_PORT: req.connection.remotePort,
         HTTPS: req.connection.encrypted ? 'On' : 'Off',
         REQUEST_METHOD: method,
-        REQUEST_URI: scriptName,
+        REQUEST_URI: req.url,
         SCRIPT_NAME: scriptName,
         SCRIPT_FILENAME: scriptFileName,
         QUERY_STRING: query || ''

@@ -85,6 +85,8 @@ exports = module.exports = function (options) {
     var documentRoot = options.documentRoot || '.';
     var handler = options.handler || 'php-cgi';
     var phpcgiArguments = options.args || [];
+    var extensions = options.extensions || ['.php'];
+    var includePath = options.includePath || false;
     var req = options.req;
     var res = options.res;
     var next = options.next || empty;
@@ -106,7 +108,13 @@ exports = module.exports = function (options) {
     var scriptName = info.pathname;
     var ext = path.extname(scriptName);
 
-    if (['.php'].indexOf(ext) < 0) {
+    if (
+      extensions.indexOf(ext) < 0 &&
+      (
+        includePath === false ||
+        scriptName.search(new RegExp(includePath)) < 0
+      )
+    ) {
         return next();
     }
 

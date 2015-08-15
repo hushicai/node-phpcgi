@@ -12,6 +12,8 @@ function fn(options) {
     var documentRoot = options.documentRoot;
     var handler = options.handler;
     var phpcgiArguments = options.args;
+    var extensions = options.extensions;
+    var includePath = options.includePath;
 
     // middleware
     return function(req, res, next) {
@@ -21,7 +23,9 @@ function fn(options) {
             args: phpcgiArguments,
             req: req,
             res: res,
-            next: next
+            next: next,
+            extensions: extensions,
+            includePath: includePath
         });
     };
 }

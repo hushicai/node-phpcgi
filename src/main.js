@@ -175,7 +175,8 @@ exports = module.exports = function (options) {
         handler,
         phpcgiArguments,
         {
-            env: env
+            env: env,
+            detached: true
         }
     );
 

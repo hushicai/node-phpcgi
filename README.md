@@ -65,8 +65,6 @@ Specially for [edp](https://github.com/ecomfe/edp), you can use it like this:
 }
 ```
 
-There is a complete example using expressjs [here](https://github.com/hushicai/node-phpcgi/blob/master/mock/app.js), which you can refer to it.
-
 ## Customize
 
 If you want to specify the arguments for php, just add them:

@@ -11,7 +11,7 @@ function getCgiFn (options) {
   var handler = options.handler;
   var documentRoot = options.documentRoot;
 
-  return (ctx, next) => {
+  return (ctx) => {
     return new Promise((resolve, reject) => {
       phpcgi({
         documentRoot: documentRoot,

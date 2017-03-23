@@ -43,6 +43,17 @@ var app = connect();
 app.use(phpcgi);
 ```
 
+If you are using `koa2`, you can use it like this:
+
+```javascript
+const Koa = require('koa');
+const app = new Koa();
+
+const phpcgi = require('node-phpcgi/koa');
+
+app.use(phpcgi({documentRoot: __dirname}));
+```
+
 Specially for [edp](https://github.com/ecomfe/edp), you can use it like this:
 
 ```javascript

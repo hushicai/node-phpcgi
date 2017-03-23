@@ -7,6 +7,8 @@
     "test": "test"
   },
   "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-latest": "^6.24.0",
     "babel-preset-stage-0": "^6.22.0",
@@ -15,9 +17,12 @@
     "koa-static": "^3.0.0",
     "serve-index": "^1.8.0",
     "serve-static": "^1.12.1",
-    "supertest": "~0.9.0"
+    "supertest": "~0.9.0",
+    "webpack": "^2.3.1",
+    "webpack-node-externals": "^1.5.4"
   },
   "scripts": {
+    "build": "webpack --progress",
     "test-koa": "node ./mock/koa.js",
     "test-express": "node ./mock/app.js"
   },
@@ -36,8 +41,5 @@
   "bugs": {
     "url": "https://github.com/hushicai/node-phpcgi/issues"
   },
-  "homepage": "https://github.com/hushicai/node-phpcgi",
-  "dependencies": {
-    "babel-register": "^6.24.0"
-  }
+  "homepage": "https://github.com/hushicai/node-phpcgi"
 }

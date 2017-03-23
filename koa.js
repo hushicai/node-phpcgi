@@ -4,6 +4,6 @@
  */
 
 // babel require hook
-require('babel-register');
+// require('babel-register');
 
-module.exports = require('./middlewares/koa');
+module.exports = require('./build/koa');

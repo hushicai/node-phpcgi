@@ -3,6 +3,8 @@
  * @author hushicai(bluthcy@gmail.com)
  */
 
+// need to compile
+
 var phpcgi = require('../src/main');
 
 function getCgiFn (options) {

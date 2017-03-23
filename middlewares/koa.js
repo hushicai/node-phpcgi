@@ -1,5 +1,5 @@
 /**
- * @file entry for koa
+ * @file middleware for koa
  * @author hushicai(bluthcy@gmail.com)
  */
 

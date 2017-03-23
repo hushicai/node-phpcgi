@@ -1,5 +1,5 @@
 /**
- * @file edp php handler
+ * @file entry for edp
  * @author hushicai(bluthcy@gmail.com)
  */
 

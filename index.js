@@ -1,5 +1,5 @@
 /**
- * @file express entry
+ * @file entry for express
  * @author hushicai(bluthcy@gmail.com)
  */
 

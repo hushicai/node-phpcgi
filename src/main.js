@@ -139,6 +139,8 @@ exports = module.exports = function (options) {
     // @see: http://www.cgi101.com/book/ch3/text.html
     var headers = req.headers;
     var host = (headers.host || '').split(':');
+    var hostname = host[0];
+    var port = host[1] || 80;
     var env = {
         PATH: process.env.PATH,
         GATEWAY_INTERFACE: 'CGI/1.1',
@@ -147,11 +149,12 @@ exports = module.exports = function (options) {
         SERVER_ROOT: documentRoot,
         DOCUMENT_ROOT: documentRoot,
         REDIRECT_STATUS: 200,
-        SERVER_NAME: host[0],
-        SERVER_PORT: host[1] || 80,
-        REMOTE_ADDR: req.connection.remoteAddress,
-        REMOTE_PORT: req.connection.remotePort,
-        HTTPS: req.connection.encrypted ? 'On' : 'Off',
+        SERVER_NAME: hostname,
+        SERVER_PORT: port,
+        // 非必须
+        // REMOTE_ADDR: req.connection.remoteAddress,
+        // REMOTE_PORT: port,
+        // HTTPS: req.connection.encrypted ? 'On' : 'Off',
         REQUEST_METHOD: method,
         REQUEST_URI: req.url,
         SCRIPT_NAME: scriptName,
